@@ -1,0 +1,21 @@
+{
+  "name": "node-route-eta",
+  "version": "1.0.0",
+  "description": "Request the the route ETA from public services",
+  "main": "index.js",
+  "dependencies": {
+    "request": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zerodivisi0n/node-route-eta.git"
+  },
+  "keywords": [
+    "route",
+    "eta",
+    "map"
+  ],
+  "author": "Alexey Zhuchkov",
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}
