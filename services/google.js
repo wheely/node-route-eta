@@ -82,9 +82,17 @@ exports = module.exports = function (clientId, privateKey, options) {
             if (!Array.isArray(legs) 
                 || (legs.length === 0)) return cb("Invalid response");
 
+            var leg = legs[0]
+                , distance = leg.distance
+                , duration = leg.duration;
+
+            if (options && options.considerTraffic && leg.duration_in_traffic) {
+                duration = leg.duration_in_traffic;
+            }
+
             cb(null, {
-                'duration': legs[0].duration.value,  // seconds
-                'distance': legs[0].distance.value  // meters
+                'duration': duration.value,  // seconds
+                'distance': distance.value  // meters
             })
         });
     }
