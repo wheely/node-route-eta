@@ -29,20 +29,13 @@ exports = module.exports = function (clientId, privateKey, options) {
         privateKey = null;
     }
 
-    var mode = 'driving'  // setting defaults
-        , units = 'metric'
-        , headers = {};
+    options = options || {};
+    var mode = options.mode || 'driving';
+    var units = options.units || 'metric';
+    var headers = {};
 
-    if (options) {
-        if (options.userAgent) {
-            headers['user-agent'] = options.userAgent;
-        }
-        if (options.mode) {
-            mode = options.mode;
-        }
-        if (options.units) {
-            units = options.units;
-        }
+    if (options.userAgent) {
+        headers['user-agent'] = options.userAgent;
     }
 
     return function (origin, destination, cb) {
@@ -57,7 +50,7 @@ exports = module.exports = function (clientId, privateKey, options) {
             'json': true
         };
 
-        if (options && options.considerTraffic) {
+        if (options.considerTraffic) {
             // set current time
             query.departure_time = Math.round(Date.now()/1000);
         }
@@ -85,7 +78,7 @@ exports = module.exports = function (clientId, privateKey, options) {
                 , distance = leg.distance
                 , duration = leg.duration;
 
-            if (options && options.considerTraffic && leg.duration_in_traffic) {
+            if (options.considerTraffic && leg.duration_in_traffic) {
                 duration = leg.duration_in_traffic;
             }
 
