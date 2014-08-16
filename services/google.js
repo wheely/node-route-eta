@@ -49,7 +49,6 @@ exports = module.exports = function (clientId, privateKey, options) {
         var query = {
             'origin': origin.join(','),
             'destination': destination.join(','),
-            'sensor': false,
             'mode': mode,
             'units': units
         }
@@ -76,10 +75,10 @@ exports = module.exports = function (clientId, privateKey, options) {
             if (err) return cb(err);
             if (!body || !body.routes) return cb("Invalid response");
             var routes = body.routes;
-            if (!Array.isArray(routes) 
+            if (!Array.isArray(routes)
                 || (routes.length === 0)) return cb("Invalid response");
             var legs = routes[0].legs;
-            if (!Array.isArray(legs) 
+            if (!Array.isArray(legs)
                 || (legs.length === 0)) return cb("Invalid response");
 
             var leg = legs[0]
