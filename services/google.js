@@ -89,8 +89,7 @@ exports = module.exports = function (clientId, privateKey, options) {
             if (!body) return cb("Empty response");
             if (body.status !== 'OK') return cb("Invalid status (" + body.status + "):" + body.error_message);
 
-            var result = parseResponse(body);
-            if (!result) return cb("Failed to parse response");
+            var result = parseResponse(body) || {};
 
             var distance = result.distance
             var duration = result.duration;
@@ -98,6 +97,8 @@ exports = module.exports = function (clientId, privateKey, options) {
             if (options.considerTraffic && result.duration_in_traffic) {
                 duration = result.duration_in_traffic;
             }
+
+            if (!duration || !distance) return cb("Failed to parse response");
 
             cb(null, {
                 'duration': duration.value,  // seconds
