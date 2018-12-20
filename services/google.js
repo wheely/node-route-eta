@@ -37,6 +37,7 @@ exports = module.exports = function (clientId, privateKey, options) {
     var units = options.units || 'metric';
     var api = options.api || 'directions';
     var channel = options.channel;
+    var apiKey = options.apiKey
     var headers = {};
 
     if (['directions', 'distancematrix'].indexOf(api) < 0) throw new Error("Invalid API: " + api);
@@ -79,7 +80,10 @@ exports = module.exports = function (clientId, privateKey, options) {
 
         var url = endpoint + '?' + querystring.stringify(query);
 
-        if (clientId && privateKey) {
+
+        if (apiKey) {
+            url += '&key=' + apiKey;
+        } else if (clientId && privateKey) {
             // Sign request with client id
             url += '&client=' + clientId;
             url += '&signature=' + signRequest(url, privateKey);
