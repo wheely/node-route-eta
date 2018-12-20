@@ -23,6 +23,7 @@ var DISTANCE_MATRIX_ENDPOINT = '/maps/api/distancematrix/json';
  *                          - api: Target API (directions [default], distancematrix)
  *                          - considerTraffic: receive trip duration considering current traffic conditions
  *                                                  (works only with Maps for Business account)
+ *                          - channel: channel request paramter (only Maps API for Business)
  */
 exports = module.exports = function (clientId, privateKey, options) {
     if ((typeof clientId === 'object') && (arguments.length === 1)) {
@@ -35,6 +36,8 @@ exports = module.exports = function (clientId, privateKey, options) {
     var mode = options.mode || 'driving';
     var units = options.units || 'metric';
     var api = options.api || 'directions';
+    var channel = options.channel;
+    var apiKey = options.apiKey
     var headers = {};
 
     if (['directions', 'distancematrix'].indexOf(api) < 0) throw new Error("Invalid API: " + api);
@@ -77,10 +80,17 @@ exports = module.exports = function (clientId, privateKey, options) {
 
         var url = endpoint + '?' + querystring.stringify(query);
 
-        if (clientId && privateKey) {
+
+        if (apiKey) {
+            url += '&key=' + apiKey;
+        } else if (clientId && privateKey) {
             // Sign request with client id
             url += '&client=' + clientId;
             url += '&signature=' + signRequest(url, privateKey);
+        }
+
+        if (channel) {
+            url += "&channel=" + channel;
         }
 
         req.url = HOST + url;
